@@ -22,6 +22,7 @@ infix 4 _⊑_
 data _⊑_ : List ℕ → List ℕ → Set where
   empty : ∀ {xs} → [] ⊑ xs
   here  : ∀ {x xs ys} → xs ⊑ ys → x ∷ xs ⊑ x ∷ ys
+  there : ∀ {y xs ys} → xs ⊑ ys → xs ⊑ y ∷ ys
 
 _is-common-subseq-of_ : List ℕ → List ℕ × List ℕ → Set
 zs is-common-subseq-of (xs , ys) = (zs ⊑ xs) × (zs ⊑ ys)
