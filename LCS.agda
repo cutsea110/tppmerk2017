@@ -27,5 +27,11 @@ data _⊑_ : List ℕ → List ℕ → Set where
 _is-common-subseq-of_ : List ℕ → List ℕ × List ℕ → Set
 zs is-common-subseq-of (xs , ys) = (zs ⊑ xs) × (zs ⊑ ys)
 
+LCS[xs,ys]⊑xs : ∀ xs ys → LCS xs ys ⊑ xs
+LCS[xs,ys]⊑xs = {!!}
+
+LCS[xs,ys]⊑ys : ∀ xs ys → LCS xs ys ⊑ ys
+LCS[xs,ys]⊑ys = {!!}
+
 theorem1 : ∀ xs ys → LCS xs ys is-common-subseq-of (xs , ys)
-theorem1 xs ys = {!!} , {!!}
+theorem1 xs ys = LCS[xs,ys]⊑xs xs ys , LCS[xs,ys]⊑ys xs ys
