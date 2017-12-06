@@ -5,7 +5,9 @@ open import Data.List
 open import Relation.Nullary
 
 longest : List ℕ → List ℕ → List ℕ
-longest xs ys = {!!}
+longest xs ys with length xs ≤? length ys
+... | yes len[xs]≤len[ys] = ys
+... | no  len[xs]>len[ys] = xs
 
 LCS : List ℕ → List ℕ → List ℕ
 LCS [] ys = []
