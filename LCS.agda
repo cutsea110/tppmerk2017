@@ -4,6 +4,7 @@ open import Data.List
 open import Data.Nat
 open import Data.Product
 open import Relation.Nullary
+open import Relation.Binary.PropositionalEquality
 
 longest : List ℕ → List ℕ → List ℕ
 longest xs ys with length xs ≤? length ys
@@ -31,11 +32,15 @@ LCS[xs,ys]⊑xs : ∀ xs ys → LCS xs ys ⊑ xs
 LCS[xs,ys]⊑xs [] ys = empty
 LCS[xs,ys]⊑xs (x ∷ xs) [] = empty
 LCS[xs,ys]⊑xs (x ∷ xs) (y ∷ ys) with x ≟ y
-... | yes x≡y = here (LCS[xs,ys]⊑xs xs ys)
+... | yes refl = here (LCS[xs,ys]⊑xs xs ys)
 ... | no  x≢y = {!!}
 
 LCS[xs,ys]⊑ys : ∀ xs ys → LCS xs ys ⊑ ys
-LCS[xs,ys]⊑ys = {!!}
+LCS[xs,ys]⊑ys [] ys = empty
+LCS[xs,ys]⊑ys (x ∷ xs) [] = empty
+LCS[xs,ys]⊑ys (x ∷ xs) (y ∷ ys) with x ≟ y
+... | yes refl = here (LCS[xs,ys]⊑ys xs ys)
+... | no  x≢y = {!!}
 
 theorem1 : ∀ xs ys → LCS xs ys is-common-subseq-of (xs , ys)
 theorem1 xs ys = LCS[xs,ys]⊑xs xs ys , LCS[xs,ys]⊑ys xs ys
