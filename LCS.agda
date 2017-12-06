@@ -52,8 +52,6 @@ LCS[xs,ys]⊑ys (x ∷ xs) (y ∷ ys) with x ≟ y
 theorem1 : ∀ xs ys → LCS xs ys is-common-subseq-of (xs , ys)
 theorem1 xs ys = LCS[xs,ys]⊑xs xs ys , LCS[xs,ys]⊑ys xs ys
 
-
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
-theorem2 xs ys zs prf = {!!}
-
+theorem2 xs ys zs (zs⊑xs , zs⊑ys) = {!!}
 
