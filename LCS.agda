@@ -18,7 +18,7 @@ LCS xxs@(x ∷ xs) yys@(y ∷ ys) with x ≟ y
 ... | no  x≢y = longest (LCS xxs ys) (LCS xs yys)
 
 data _⊑_ : List ℕ → List ℕ → Set where
-  
+  empty : ∀ {xs} → [] ⊑ xs
 
 _is-common-subseq-of_ : List ℕ → List ℕ × List ℕ → Set
 zs is-common-subseq-of (xs , ys) = (zs ⊑ xs) × (zs ⊑ ys)
