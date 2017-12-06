@@ -28,19 +28,24 @@ data _⊑_ : List ℕ → List ℕ → Set where
 _is-common-subseq-of_ : List ℕ → List ℕ × List ℕ → Set
 zs is-common-subseq-of (xs , ys) = (zs ⊑ xs) × (zs ⊑ ys)
 
+longest-either : (P : List ℕ → Set){xs ys : List ℕ} → P xs → P ys → P (longest xs ys)
+longest-either = {!!}
+
 LCS[xs,ys]⊑xs : ∀ xs ys → LCS xs ys ⊑ xs
 LCS[xs,ys]⊑xs [] ys = empty
 LCS[xs,ys]⊑xs (x ∷ xs) [] = empty
 LCS[xs,ys]⊑xs (x ∷ xs) (y ∷ ys) with x ≟ y
 ... | yes refl = here (LCS[xs,ys]⊑xs xs ys)
-... | no  x≢y = {!!}
+... | no  x≢y
+  = longest-either (_⊑ x ∷ xs) (LCS[xs,ys]⊑xs (x ∷ xs) ys) (there (LCS[xs,ys]⊑xs xs (y ∷ ys)))
 
 LCS[xs,ys]⊑ys : ∀ xs ys → LCS xs ys ⊑ ys
 LCS[xs,ys]⊑ys [] ys = empty
 LCS[xs,ys]⊑ys (x ∷ xs) [] = empty
 LCS[xs,ys]⊑ys (x ∷ xs) (y ∷ ys) with x ≟ y
 ... | yes refl = here (LCS[xs,ys]⊑ys xs ys)
-... | no  x≢y = {!!}
+... | no  x≢y
+  = longest-either (_⊑ y ∷ ys) (there (LCS[xs,ys]⊑ys (x ∷ xs) ys)) (LCS[xs,ys]⊑ys xs (y ∷ ys))
 
 theorem1 : ∀ xs ys → LCS xs ys is-common-subseq-of (xs , ys)
 theorem1 xs ys = LCS[xs,ys]⊑xs xs ys , LCS[xs,ys]⊑ys xs ys
