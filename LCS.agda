@@ -1,7 +1,8 @@
 module LCS where
 
-open import Data.Nat
 open import Data.List
+open import Data.Nat
+open import Data.Product
 open import Relation.Nullary
 
 longest : List ℕ → List ℕ → List ℕ
@@ -15,3 +16,6 @@ LCS (_ ∷ _) [] = []
 LCS xxs@(x ∷ xs) yys@(y ∷ ys) with x ≟ y
 ... | yes x≡y = x ∷ LCS xs ys
 ... | no  x≢y = longest (LCS xxs ys) (LCS xs yys)
+
+_is-common-subseq-of_ : List ℕ → List ℕ × List ℕ → Set
+zs is-common-subseq-of (xs , ys) = {!!} × {!!}
