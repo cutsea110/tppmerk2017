@@ -29,7 +29,9 @@ _is-common-subseq-of_ : List ℕ → List ℕ × List ℕ → Set
 zs is-common-subseq-of (xs , ys) = (zs ⊑ xs) × (zs ⊑ ys)
 
 longest-either : (P : List ℕ → Set){xs ys : List ℕ} → P xs → P ys → P (longest xs ys)
-longest-either = {!!}
+longest-either P {xs} {ys} Pxs Pys with length xs ≤? length ys
+... | yes len[xs]≤len[ys] = Pys
+... | no  len[xs]>len[ys] = Pxs
 
 LCS[xs,ys]⊑xs : ∀ xs ys → LCS xs ys ⊑ xs
 LCS[xs,ys]⊑xs [] ys = empty
