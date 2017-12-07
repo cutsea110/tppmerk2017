@@ -60,4 +60,12 @@ x⊑y→len[x]≤len[y] x .(_ ∷ _) (there {_} {_} {ys} x⊑ys) with x⊑y→le
 ... | len[x]≤len[ys] = ≤-trans len[x]≤len[ys] (n≤1+n (length ys))
 
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
-theorem2 xs ys zs (zs⊑xs , zs⊑ys) = {!!}
+theorem2 [] [] .[] (empty , empty) = z≤n
+theorem2 [] (y ∷ ys) .[] (empty , zs⊑ys) = z≤n
+theorem2 (x ∷ xs) [] .[] (zs⊑xs , empty) = z≤n
+theorem2 (x ∷ xs) (y ∷ ys) .[] (empty , zs⊑ys) = z≤n
+theorem2 (x ∷ xs) (.x ∷ ys) .(x ∷ _) (here zs⊑xs , here zs⊑ys) = {!!}
+theorem2 (x ∷ xs) (y ∷ ys) .(x ∷ _) (here zs⊑xs , there zs⊑ys) = {!!}
+theorem2 (x ∷ xs) (y ∷ ys) .[] (there zs⊑xs , empty) = z≤n
+theorem2 (x ∷ xs) (y ∷ ys) .(y ∷ _) (there zs⊑xs , here zs⊑ys) = {!!}
+theorem2 (x ∷ xs) (y ∷ ys) zs (there zs⊑xs , there zs⊑ys) = {!!}
