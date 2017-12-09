@@ -59,6 +59,13 @@ monotone-⊑-≤ .(_ ∷ _) .(_ ∷ _) (here {_} {xs} {ys} xs⊑ys) = s≤s (mon
 monotone-⊑-≤ x .(_ ∷ _) (there {_} {_} {ys} x⊑ys) with monotone-⊑-≤ x ys x⊑ys
 ... | len[x]≤len[ys] = ≤-trans len[x]≤len[ys] (n≤1+n (length ys))
 
+lemma0 : ∀ xs ys → LCS xs ys ⊑ ys
+lemma0 [] ys = empty
+lemma0 (x ∷ xs) [] = empty
+lemma0 (x ∷ xs) (y ∷ ys) with x ≟ y
+... | yes x≡y = {!!}
+... | no  x≢y = {!!}
+
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
 theorem2 [] [] .[] (empty , empty) = z≤n
 theorem2 [] (y ∷ ys) .[] (empty , zs⊑ys) = z≤n
