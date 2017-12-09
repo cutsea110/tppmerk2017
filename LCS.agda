@@ -70,9 +70,8 @@ lemma1 : ∀ xs ys → LCS xs ys ⊑ xs
 lemma1 [] ys = empty
 lemma1 (x ∷ xs) [] = empty
 lemma1 (x ∷ xs) (y ∷ ys) with x ≟ y
-... | yes refl = {!!}
-... | no  x≢y  = {!!}
-
+... | yes refl = here (lemma1 xs ys)
+... | no  x≢y  = longest-either (_⊑ x ∷ xs) (lemma1 (x ∷ xs) ys) (there (lemma1 xs (y ∷ ys)))
 
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
 theorem2 [] [] .[] (empty , empty) = z≤n
