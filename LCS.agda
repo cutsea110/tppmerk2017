@@ -53,10 +53,10 @@ LCS[xs,ys]⊑ys (x ∷ xs) (y ∷ ys) with x ≟ y
 theorem1 : ∀ xs ys → LCS xs ys is-common-subseq-of (xs , ys)
 theorem1 xs ys = LCS[xs,ys]⊑xs xs ys , LCS[xs,ys]⊑ys xs ys
 
-x⊑y→len[x]≤len[y] : ∀ x y → x ⊑ y → length x ≤ length y
-x⊑y→len[x]≤len[y] .[] y empty = z≤n
-x⊑y→len[x]≤len[y] .(_ ∷ _) .(_ ∷ _) (here {_} {xs} {ys} xs⊑ys) = s≤s (x⊑y→len[x]≤len[y] xs ys xs⊑ys)
-x⊑y→len[x]≤len[y] x .(_ ∷ _) (there {_} {_} {ys} x⊑ys) with x⊑y→len[x]≤len[y] x ys x⊑ys
+monotone-⊑-≤ : ∀ x y → x ⊑ y → length x ≤ length y
+monotone-⊑-≤ .[] y empty = z≤n
+monotone-⊑-≤ .(_ ∷ _) .(_ ∷ _) (here {_} {xs} {ys} xs⊑ys) = s≤s (monotone-⊑-≤ xs ys xs⊑ys)
+monotone-⊑-≤ x .(_ ∷ _) (there {_} {_} {ys} x⊑ys) with monotone-⊑-≤ x ys x⊑ys
 ... | len[x]≤len[ys] = ≤-trans len[x]≤len[ys] (n≤1+n (length ys))
 
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
