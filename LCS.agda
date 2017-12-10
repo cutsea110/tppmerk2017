@@ -74,6 +74,9 @@ lemma1 (x ∷ xs) (y ∷ ys) with x ≟ y
 ... | no  x≢y  = longest-either (_⊑ x ∷ xs) (lemma1 (x ∷ xs) ys) (there (lemma1 xs (y ∷ ys)))
 
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
+theorem2 xs ys zs (zs⊑xs , zs⊑ys) with theorem1 xs ys
+... | LCS[xs,ys]⊑xs , LCS[xs,ys]⊑ys = {!!}
+{--
 theorem2 [] [] .[] (empty , empty) = z≤n
 theorem2 [] (y ∷ ys) .[] (empty , zs⊑ys) = z≤n
 theorem2 (x ∷ xs) [] .[] (zs⊑xs , empty) = z≤n
@@ -83,3 +86,4 @@ theorem2 (x ∷ xs) (y ∷ ys) .(x ∷ _) (here {_} {zs} zs⊑xs , there zs⊑ys
 theorem2 (x ∷ xs) (y ∷ ys) .[] (there zs⊑xs , empty) = z≤n
 theorem2 (x ∷ xs) (y ∷ ys) .(y ∷ _) (there zs⊑xs , here {_} {zs} zs⊑ys) = {!!}
 theorem2 (x ∷ xs) (y ∷ ys) zs (there zs⊑xs , there zs⊑ys) = {!!}
+--}
