@@ -59,20 +59,6 @@ monotone-⊑-≤ .(_ ∷ _) .(_ ∷ _) (here {_} {xs} {ys} xs⊑ys) = s≤s (mon
 monotone-⊑-≤ x .(_ ∷ _) (there {_} {_} {ys} x⊑ys) with monotone-⊑-≤ x ys x⊑ys
 ... | len[x]≤len[ys] = ≤-trans len[x]≤len[ys] (n≤1+n (length ys))
 
-lemma0 : ∀ xs ys → LCS xs ys ⊑ ys
-lemma0 [] ys = empty
-lemma0 (x ∷ xs) [] = empty
-lemma0 (x ∷ xs) (y ∷ ys) with x ≟ y
-... | yes refl = here (lemma0 xs ys)
-... | no  x≢y  = longest-either (_⊑ y ∷ ys) (there (lemma0 (x ∷ xs) ys)) (lemma0 xs (y ∷ ys))
-
-lemma1 : ∀ xs ys → LCS xs ys ⊑ xs
-lemma1 [] ys = empty
-lemma1 (x ∷ xs) [] = empty
-lemma1 (x ∷ xs) (y ∷ ys) with x ≟ y
-... | yes refl = here (lemma1 xs ys)
-... | no  x≢y  = longest-either (_⊑ x ∷ xs) (lemma1 (x ∷ xs) ys) (there (lemma1 xs (y ∷ ys)))
-
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
 theorem2 xs ys zs (zs⊑xs , zs⊑ys) with theorem1 xs ys
 theorem2 xs ys zs (zs⊑xs , zs⊑ys) | LCS[xs,ys]⊑xs , LCS[xs,ys]⊑ys = {!!}
