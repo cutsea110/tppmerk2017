@@ -75,7 +75,8 @@ lemma1 (x ∷ xs) (y ∷ ys) with x ≟ y
 
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
 theorem2 xs ys zs (zs⊑xs , zs⊑ys) with theorem1 xs ys
-... | LCS[xs,ys]⊑xs , LCS[xs,ys]⊑ys = {!!}
+theorem2 xs ys zs (zs⊑xs , zs⊑ys) | LCS[xs,ys]⊑xs , LCS[xs,ys]⊑ys = {!!}
+
 {--
 theorem2 [] [] .[] (empty , empty) = z≤n
 theorem2 [] (y ∷ ys) .[] (empty , zs⊑ys) = z≤n
