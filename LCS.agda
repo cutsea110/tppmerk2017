@@ -101,7 +101,12 @@ module _ {ℓ} {A} where
     lem2 : (x ∷ xs , ys) ⊰ (x ∷ xs , y ∷ ys)
     lem2 = ⊰-right y (y ∷ xs) ys
 
+P : ∀ p → Set
+P (xs , ys) = ∀ zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
+
+step : ∀ p → (∀ q → q ⊰ p → P q) → P p
+step (xs , ys) rec zs prf = {!!}
+
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
-theorem2 xs ys zs (zs⊑xs , zs⊑ys) with theorem1 xs ys
-theorem2 xs ys zs (zs⊑xs , zs⊑ys) | LCS[xs,ys]⊑xs , LCS[xs,ys]⊑ys = {!!}
+theorem2 xs ys = ⊰-rec P step (xs , ys)
 
