@@ -1,11 +1,16 @@
 module LCS where
 
+open import Level renaming (zero to ₀)
 open import Data.List
 open import Data.Nat
 open import Data.Nat.Properties
 open import Data.Product
+open import Function using (_on_)
 open import Relation.Nullary
+open import Relation.Binary
 open import Relation.Binary.PropositionalEquality
+open import Induction.Nat
+open import Induction.WellFounded
 
 longest : List ℕ → List ℕ → List ℕ
 longest xs ys with length xs ≤? length ys
@@ -59,18 +64,29 @@ monotone-⊑-≤ .(_ ∷ _) .(_ ∷ _) (here {_} {xs} {ys} xs⊑ys) = s≤s (mon
 monotone-⊑-≤ x .(_ ∷ _) (there {_} {_} {ys} x⊑ys) with monotone-⊑-≤ x ys x⊑ys
 ... | len[x]≤len[ys] = ≤-trans len[x]≤len[ys] (n≤1+n (length ys))
 
+sum-length : {A : Set} → (List A × List A) → ℕ
+sum-length (xs , ys) = length xs + length ys
+
+_⊰_ : {A : Set} → Rel (List A × List A) ₀
+_⊰_ = _<_ on sum-length
+
+⊰-well-founded : {A : Set} → Well-founded (_⊰_ {A})
+⊰-well-founded = Inverse-image.well-founded sum-length <-well-founded
+
+module _ {ℓ} {A} where
+  open All (⊰-well-founded {A}) ℓ public renaming (wfRec-builder to ⊰-rec-builder ; wfRec to ⊰-rec)
+
+⊰-left : ∀ {A} (x : A) → (xs ys : List A) → (xs , ys) ⊰ (x ∷ xs , ys)
+⊰-left x xs ys = {!!}
+
+⊰-right : ∀ {A} (y : A) → (xs ys : List A) → (xs , ys) ⊰ (xs , y ∷ ys)
+⊰-right y xs ys = {!!}
+
+⊰-both :  ∀ {A} (x y : A) → (xs ys : List A) → (xs , ys) ⊰ (x ∷ xs , y ∷ ys)
+⊰-both x y xs ys = {!!}
+
+
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
 theorem2 xs ys zs (zs⊑xs , zs⊑ys) with theorem1 xs ys
 theorem2 xs ys zs (zs⊑xs , zs⊑ys) | LCS[xs,ys]⊑xs , LCS[xs,ys]⊑ys = {!!}
 
-{--
-theorem2 [] [] .[] (empty , empty) = z≤n
-theorem2 [] (y ∷ ys) .[] (empty , zs⊑ys) = z≤n
-theorem2 (x ∷ xs) [] .[] (zs⊑xs , empty) = z≤n
-theorem2 (x ∷ xs) (y ∷ ys) .[] (empty , zs⊑ys) = z≤n
-theorem2 (x ∷ xs) (.x ∷ ys) .(x ∷ _) (here {_} {zs} .{xs} zs⊑xs , here {_} .{zs} .{ys} zs⊑ys) = {!!}
-theorem2 (x ∷ xs) (y ∷ ys) .(x ∷ _) (here {_} {zs} zs⊑xs , there zs⊑ys) = {!!}
-theorem2 (x ∷ xs) (y ∷ ys) .[] (there zs⊑xs , empty) = z≤n
-theorem2 (x ∷ xs) (y ∷ ys) .(y ∷ _) (there zs⊑xs , here {_} {zs} zs⊑ys) = {!!}
-theorem2 (x ∷ xs) (y ∷ ys) zs (there zs⊑xs , there zs⊑ys) = {!!}
---}
