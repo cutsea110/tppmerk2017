@@ -1,6 +1,6 @@
 module LCS where
 
-open import Level renaming (zero to ₀)
+open import Level using (zero)
 open import Data.List
 open import Data.Nat
 open import Data.Nat.Properties
@@ -67,7 +67,7 @@ monotone-⊑-≤ x .(_ ∷ _) (there {_} {_} {ys} x⊑ys) with monotone-⊑-≤ 
 sum-length : {A : Set} → (List A × List A) → ℕ
 sum-length (xs , ys) = length xs + length ys
 
-_⊰_ : {A : Set} → Rel (List A × List A) ₀
+_⊰_ : {A : Set} → Rel (List A × List A) Level.zero
 _⊰_ = _<_ on sum-length
 
 ⊰-well-founded : {A : Set} → Well-founded (_⊰_ {A})
@@ -77,14 +77,29 @@ module _ {ℓ} {A} where
   open All (⊰-well-founded {A}) ℓ public renaming (wfRec-builder to ⊰-rec-builder ; wfRec to ⊰-rec)
 
 ⊰-left : ∀ {A} (x : A) → (xs ys : List A) → (xs , ys) ⊰ (x ∷ xs , ys)
-⊰-left x xs ys = {!!}
+⊰-left x xs ys = ≤-reflexive refl
 
 ⊰-right : ∀ {A} (y : A) → (xs ys : List A) → (xs , ys) ⊰ (xs , y ∷ ys)
-⊰-right y xs ys = {!!}
+⊰-right y xs ys = ≤-reflexive (sym  lem )
+  where
+    open ≡-Reasoning
+    lem : sum-length (xs , y ∷ ys) ≡ suc (sum-length (xs , ys))
+    lem =
+      begin
+        length xs + length (y ∷ ys)
+      ≡⟨ refl ⟩
+        length xs + suc (length ys)
+      ≡⟨ +-suc (length xs) (length ys) ⟩
+        suc (length xs + length ys)
+      ∎
 
 ⊰-both :  ∀ {A} (x y : A) → (xs ys : List A) → (xs , ys) ⊰ (x ∷ xs , y ∷ ys)
-⊰-both x y xs ys = {!!}
-
+⊰-both x y xs ys = <-trans lem1 lem2
+  where
+    lem1 : (xs , ys) ⊰ (x ∷ xs , ys)
+    lem1 = ⊰-left y xs ys
+    lem2 : (x ∷ xs , ys) ⊰ (x ∷ xs , y ∷ ys)
+    lem2 = ⊰-right y (y ∷ xs) ys
 
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
 theorem2 xs ys zs (zs⊑xs , zs⊑ys) with theorem1 xs ys
