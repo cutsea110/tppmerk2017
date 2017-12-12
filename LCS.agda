@@ -44,12 +44,11 @@ viewfunc : (xs : List ℕ) → (ys : List ℕ) → Either (xs ⊑ ys) (xs ⋢ ys
 viewfunc [] [] = left empty
 viewfunc [] (x ∷ ys) = left empty
 viewfunc (x ∷ xs) [] = right foo
-viewfunc (x ∷ xs) (y ∷ ys) with viewfunc xs ys
-viewfunc (x ∷ xs) (y ∷ ys) | left xs⊑ys with x ≟ y
+viewfunc (x ∷ xs)  (y ∷ ys) with viewfunc xs ys
+viewfunc (x ∷ xs)  (y ∷ ys) | left xs⊑ys with x ≟ y
 viewfunc (x ∷ xs) (.x ∷ ys) | left xs⊑ys | yes refl = left (here xs⊑ys)
-viewfunc (x ∷ xs) (y ∷ ys) | left xs⊑ys | no  x≢y = right (buz xs⊑ys x≢y)
-viewfunc (x ∷ xs) (y ∷ ys) | right xs⋢ys = right (bar xs⋢ys)
-
+viewfunc (x ∷ xs)  (y ∷ ys) | left xs⊑ys | no  x≢y = right (buz xs⊑ys x≢y)
+viewfunc (x ∷ xs)  (y ∷ ys) | right xs⋢ys = right (bar xs⋢ys)
 
 _is-common-subseq-of_ : List ℕ → List ℕ × List ℕ → Set
 zs is-common-subseq-of (xs , ys) = (zs ⊑ xs) × (zs ⊑ ys)
