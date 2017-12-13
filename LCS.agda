@@ -1,6 +1,7 @@
 module LCS where
 
 open import Level using (zero)
+open import Data.Empty
 open import Data.List
 open import Data.Nat
 open import Data.Nat.Properties
@@ -24,31 +25,12 @@ LCS xxs@(x ∷ xs) yys@(y ∷ ys) with x ≟ y
 ... | yes x≡y = x ∷ LCS xs ys
 ... | no  x≢y = longest (LCS xxs ys) (LCS xs yys)
 
-infix 4 _⊑_ _⋢_
+infix 4 _⊑_
 
 data _⊑_ : List ℕ → List ℕ → Set where
   empty : ∀ {xs} → [] ⊑ xs
   here  : ∀ {x xs ys} → xs ⊑ ys → x ∷ xs ⊑ x ∷ ys
   there : ∀ {y xs ys} → xs ⊑ ys → xs ⊑ y ∷ ys
-
-data _⋢_ : List ℕ → List ℕ → Set where
-  foo : ∀ {x} {xs} →  x ∷ xs ⋢ []
-  bar : ∀ {x y} {xs ys} → xs ⋢ ys → x ∷ xs ⋢ y ∷ ys
-  buz : ∀ {x y} {xs ys} → xs ⊑ ys → x ≢ y → x ∷ xs ⋢ y ∷ ys
-
-data Either (A B : Set) : Set where
-  left  : A → Either A B
-  right : B → Either A B
-
-viewfunc : (xs : List ℕ) → (ys : List ℕ) → Either (xs ⊑ ys) (xs ⋢ ys)
-viewfunc [] [] = left empty
-viewfunc [] (x ∷ ys) = left empty
-viewfunc (x ∷ xs) [] = right foo
-viewfunc (x ∷ xs)  (y ∷ ys) with viewfunc xs ys
-viewfunc (x ∷ xs)  (y ∷ ys) | left xs⊑ys with x ≟ y
-viewfunc (x ∷ xs) (.x ∷ ys) | left xs⊑ys | yes refl = left (here xs⊑ys)
-viewfunc (x ∷ xs)  (y ∷ ys) | left xs⊑ys | no  x≢y = right (buz xs⊑ys x≢y)
-viewfunc (x ∷ xs)  (y ∷ ys) | right xs⋢ys = right (bar xs⋢ys)
 
 _is-common-subseq-of_ : List ℕ → List ℕ × List ℕ → Set
 zs is-common-subseq-of (xs , ys) = (zs ⊑ xs) × (zs ⊑ ys)
@@ -85,6 +67,8 @@ monotone-⊑-≤ x .(_ ∷ _) (there {_} {_} {ys} x⊑ys) with monotone-⊑-≤ 
 
 sum-length : {A : Set} → (List A × List A) → ℕ
 sum-length (xs , ys) = length xs + length ys
+
+infix 4 _⊰_
 
 _⊰_ : {A : Set} → Rel (List A × List A) Level.zero
 _⊰_ = _<_ on sum-length
