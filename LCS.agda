@@ -109,7 +109,8 @@ P (xs , ys) = ∀ zs → zs is-common-subseq-of (xs , ys) → length zs ≤ leng
 
 step : ∀ p → (∀ q → q ⊰ p → P q) → P p
 step ([] , _) rec .[] (empty , _) = z≤n
-step (x ∷ xs , ys) rec zs prf = {!!}
+step (x ∷ xs , []) rec .[] (_ , empty) = z≤n
+step (x ∷ xs , x₁ ∷ ys) rec zs prf = {!!}
 
 theorem2 : ∀ xs ys zs → zs is-common-subseq-of (xs , ys) → length zs ≤ length (LCS xs ys)
 theorem2 xs ys = ⊰-rec P step (xs , ys)
